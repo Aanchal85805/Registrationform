@@ -1,104 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>javascript </title>
-    <link rel="stylesheet" href="style.css">
-    
-
+  <title>Signup Form</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
 </head>
-
 <body>
-    <h1>Registration form</h1>
+  <h1>Sign up Form</h1>
+  <form id="myForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <span id="nameError" class="error"></span>
+    <br><br>
     
-    <form aciton ="/myaction.php" name="myForm" onsubmit= validateForm() method="post">
-        <div class="formdesign" id="name">
-            Name: <input type="text" name="fname" required><b><span class="formerror"> </span></b>
-        </div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <span id="emailError" class="error"></span>
+    <br><br>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <span id="passwordError" class="error"></span>
+    <br><br>
+    
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" name="phone" required>
+    <span id="phoneError" class="error"></span>
+    <br><br>
+    
+    <input type="submit" value="Submit">
+    <p>Already hava an account? <a href="Login.html">Login here</a></p>
+  </form>
+  
+  <script>
+    var form = document.getElementById('myForm');
+    var nameInput = document.getElementById('name');
+    var emailInput = document.getElementById('email');
+    var passwordInput = document.getElementById('password');
+    var phoneInput = document.getElementById('phone');
+    var nameError = document.getElementById('nameError');
+    var emailError = document.getElementById('emailError');
+    var passwordError = document.getElementById('passwordError');
+    var phoneError = document.getElementById('phoneError');
 
-        <div class="formdesign" id="email">
-            Email: <input type="email" name="femail" required><b><span class="formerror"> </span></b>
-        </div>
+    form.addEventListener('submit', function(event) {
+      var valid = true;
 
-        <div class="formdesign" id="phone">
-            Phone: <input type="phone" name="fphone" required><b><span class="formerror"></span></b>
-        </div>
+      if (nameInput.value.trim() === '') {
+        nameError.textContent = 'Name is required';
+        valid = false;
+      } else {
+        nameError.textContent = '';
+      }
 
-        <div class="formdesign" id="pass">
-            Password: <input type="password" name="fpass" required><b><span class="formerror"></span></b>
-        </div>
+      if (emailInput.value.trim() === '') {
+        emailError.textContent = 'Email is required';
+        valid = false;
+      } else if (!isValidEmail(emailInput.value)) {
+        emailError.textContent = 'Invalid email format';
+        valid = false;
+      } else {
+        emailError.textContent = '';
+      }
 
-        <div class="formdesign" id="cpass">
-            Confirm Password: <input type="password" name="fcpass" required><b><span class="formerror"></span></b>
-        </div>
+      if (passwordInput.value.trim() === '') {
+        passwordError.textContent = 'Password is required';
+        valid = false;
+      } else if (passwordInput.value.length < 6) {
+        passwordError.textContent = 'Password must be at least 6 characters long';
+        valid = false;
+      } else {
+        passwordError.textContent = '';
+      }
 
-        <input class="but" type="submit" value="Submit">
+      if (phoneInput.value.trim() === '') {
+        phoneError.textContent = 'Phone number is required';
+        valid = false;
+      } else if (!isValidPhoneNumber(phoneInput.value)) {
+        phoneError.textContent = 'Invalid phone number format';
+        valid = false;
+      } else {
+        phoneError.textContent = '';
+      }
 
-    </form> 
+      if (!valid) {
+        event.preventDefault();
+      }
+    });
+
+    function isValidEmail(email) {
+      // Simple email validation regex pattern
+      var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return pattern.test(email);
+    }
+
+    function isValidPhoneNumber(phone) {
+      // Simple phone number validation regex pattern
+      var pattern = /^\d{10}$/;
+      return pattern.test(phone);
+    }
+  </script>
 </body>
-     <script>
-        function seterror(id, error){
-            //sets error inside tag of id 
-            element = document.getElementById(id);
-            element.getElementsByClassName('formerror')[0].innerHTML = error;
-        
-        }
-        
-        function validateForm(){
-            var returnval = true;
-            clearErrors();
-             //perform validation and if validation fails, set the value of returnval to false
-            var name = document.forms['myForm']["fname"].value;
-            if (name.length<5){
-                seterror("name", "*Length of name is too short");
-                returnval = false;
-            }
-            if (name.length == 0){
-        seterror("name", "*Length of name cannot be zero!");
-        returnval = false;
-    }
-
-    var email = document.forms['myForm']["femail"].value;
-    if (email.length>15){
-        seterror("email", "*Email length is too long");
-        returnval = false;
-    }
-
-    var phone = document.forms['myForm']["fphone"].value;
-    if (phone.length != 10){
-        seterror("phone", "*Phone number should be of 10 digits!");
-        returnval = false;
-    }
-
-    var password = document.forms['myForm']["fpass"].value;
-    if (password.length < 6){
-
-        // Quiz: create a logic to allow only those passwords which contain atleast one letter, one number and one special character and one uppercase letter
-        seterror("pass", "*Password should be atleast 6 characters long!");
-        returnval = false;
-    }
-
-    var cpassword = document.forms['myForm']["fcpass"].value;
-    if (cpassword != password){
-        seterror("cpass", "*Password and Confirm password should match!");
-        returnval = false;
-    }
-
-    
-         return returnval;
-}
-        
-    
-        </script> 
-
-
-
 </html>
-
-
-        
-            
-           
